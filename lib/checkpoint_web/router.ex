@@ -14,10 +14,36 @@ defmodule CheckpointWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :with_session do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug CheckpointWeb.CurrentUser
+  end
+
+  pipeline :login_required do
+    plug Guardian.Plug.EnsureAuthenticated,
+         handler: CheckpointWeb.GuardianErrorHandler
+  end
+
+  pipeline :admin_required do
+  end
+
   scope "/", CheckpointWeb do
-    pipe_through :browser
+    pipe_through [:browser, :with_session]
+
+    resources "/users", UserController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
 
     live "/", PageLive, :index
+
+    scope "/" do
+      pipe_through [:login_required]
+
+      resources "/users", UserController, only: [:show]
+      resources "/run", RunController
+      resources "/checkpoint", CheckpointController
+      resources "/checkin", CheckinController
+    end
   end
 
   # Other scopes may use custom stacks.

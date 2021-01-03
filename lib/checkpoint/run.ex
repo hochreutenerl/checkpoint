@@ -7,6 +7,8 @@ defmodule Checkpoint.Run do
     field :name, :string
     field :start, :naive_datetime
 
+    has_many :checkpoints, Checkpoint.Checkpoint
+
     timestamps()
   end
 

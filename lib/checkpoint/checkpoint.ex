@@ -6,7 +6,9 @@ defmodule Checkpoint.Checkpoint do
     field :lat, :float
     field :long, :float
     field :name, :string
-    field :run_id, :id
+
+    belongs_to :run, Checkpoint.Run
+    has_many :checkins, Checkpoint.Checkin
 
     timestamps()
   end

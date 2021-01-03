@@ -6,7 +6,8 @@ defmodule Checkpoint.Checkin do
     field :lat, :float
     field :long, :float
     field :time, :naive_datetime
-    field :checkpoint_id, :id
+
+    belongs_to :checkpoint, Checkpoint.Checkpoint
 
     timestamps()
   end

@@ -1,0 +1,15 @@
+<%= link "To list", to: Routes.run_path(@conn, :index, @run.user) %>
+<h1><%= @run.name %></h1>
+<p><%= @run.body %></p>
+<%= if @current_user.id == @user.id do %>
+<span>
+    <%= link "Edit", to: Routes.run_path(@conn, :edit, @current_user,
+                     @run), class: "btn btn-primary btn-xs" %>
+    &nbsp;
+    <%= link "Delete", to: Routes.run_path(@conn, :delete,
+                       @current_user, @run),
+                       method: :delete,
+                       data: [confirm: "Really?"],
+                       class: "btn btn-danger btn-xs" %>
+  </span>
+<% end %>

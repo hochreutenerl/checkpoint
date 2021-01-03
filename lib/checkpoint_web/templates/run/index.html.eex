@@ -1,0 +1,15 @@
+<%= if @current_user.id == @user.id do %>
+<h1>My Runs</h1>
+<%= link "Create new", to: Routes.run_path(@conn, :new,
+                                            @current_user) %>
+<% else %>
+<h1><%= @user.name %>'s Runs</h1>
+<% end %>
+<ul>
+    <%= for run <- @runs do %>
+    <li>
+        <%= link run.title, to: Routes.run_path(@conn, :show,
+                                              run.user, run) %>
+    </li>
+    <% end %>
+</ul>
